@@ -9,6 +9,7 @@ class Form extends Component {
   };
   handleChange = (e) => {
     const { name, value } = e.currentTarget;
+
     this.setState({
       [name]: value,
     });
@@ -16,8 +17,8 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.duplicateSearch(this.state);
-    // this.props.addToLibrary(this.state);
+    // this.props.duplicateSearch(this.state);
+    this.props.addToLibrary(this.state);
 
     this.reset();
   };

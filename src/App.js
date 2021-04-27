@@ -11,31 +11,35 @@ class App extends React.Component {
     contacts: [],
     filter: "",
   };
-  duplicateSearch = (data) => {
-    const { name } = data;
-    const arrNames = [];
-    const lowerCase= name.toLowerCase();
+  // duplicateSearch = (data) => {
+  //   const { name } = data;
+  //   const arrNames = [];
+  //   const lowerCase = name.toLowerCase();
 
-    this.state.contacts.map((el) => arrNames.push(el.name.toLowerCase()));
-    if (!arrNames.includes(lowerCase)) {
-      this.addToLibrary(data);
-    } else alert(`${name} is alredy in contacts`);
-  };
+  //   this.state.contacts.map((el) => arrNames.push(el.name.toLowerCase()));
+  //   if (!arrNames.includes(lowerCase)) {
+  //     this.addToLibrary(data);
+  //   } else alert(`${name} is alredy in contacts`);
+  // };
 
   addToLibrary = (data) => {
     const { name, number } = data;
+    const nameLowerCase = name.toLowerCase();
+    const contactsList = this.state.contacts;
 
     const contact = {
       id: shortid.generate(),
       name: name,
       number: number,
     };
-
-    this.setState(({ contacts }) => {
-      return {
-        contacts: [contact, ...contacts],
-      };
-    });
+    const checkDuplicate = contactsList.find(
+      (contact) => contact.name.toLowerCase() === nameLowerCase
+    );
+    checkDuplicate
+      ? alert(`${name} is alredy in contacts`)
+      : this.setState(({ contacts }) => ({
+          contacts: [contact, ...contacts],
+        }));
   };
   changeFilter = (e) => {
     this.setState({ filter: e.currentTarget.value });
@@ -63,7 +67,7 @@ class App extends React.Component {
       <div className="container">
         <h1>Phonebook</h1>
         <Form
-          duplicateSearch={this.duplicateSearch}
+          // duplicateSearch={this.duplicateSearch}
           addToLibrary={this.addToLibrary}
         />
         <h2>Contacts</h2>
@@ -87,7 +91,7 @@ App.propTypes = {
   getVisibleContacts: PropTypes.func,
   deleteById: PropTypes.func,
   addToLibrary: PropTypes.func,
-  duplicateSearch:PropTypes.func,
+  duplicateSearch: PropTypes.func,
 };
 
 export default App;
